@@ -12,6 +12,7 @@ import {
 import { ActionByIdDto } from 'src/modules/common/DTO/actionById.dto';
 import { ChangeUserDto } from '../DTO/chageUser.dto';
 import { CreateUserDto } from '../DTO/createUser.dto';
+import { ExtendedUserDto } from '../DTO/extendedUser.dto';
 import { UserEntity } from '../entities/user.entity';
 import { UsersService } from '../services/users.service';
 
@@ -21,7 +22,7 @@ export class UsersController {
   private readonly service: UsersService;
 
   @Get(':id')
-  async getOne(@Param() params: ActionByIdDto): Promise<UserEntity> {
+  async getOne(@Param() params: ActionByIdDto): Promise<ExtendedUserDto> {
     return await this.service.findOne(params.id);
   }
 
