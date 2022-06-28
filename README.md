@@ -1,6 +1,10 @@
-## Запуск
+## Перед запуском
 
-Перед запуском нужно заполнить .env файл, пример .env файла - env.example
+Нужно заполнить .env файл, пример .env файла - env.example
+
+## Swagger
+
+Посмотреть документацию можно по адресу - localhost:3000/api
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>

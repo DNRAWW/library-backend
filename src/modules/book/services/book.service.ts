@@ -9,7 +9,11 @@ export class BooksService {
   @InjectRepository(BookEntity)
   private readonly repository: Repository<BookEntity>;
 
-  async create(book: CreateBookDto) {
+  async findAll(): Promise<BookEntity[]> {
+    return await this.repository.find();
+  }
+
+  async create(book: CreateBookDto): Promise<void> {
     await this.repository.save(book);
   }
 
