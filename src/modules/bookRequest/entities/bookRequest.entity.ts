@@ -1,16 +1,16 @@
 import { UserEntity } from '../../user/entities/user.entity';
 import {
   Column,
-  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BookEntity } from './book.entity';
+import { BookEntity } from '../../book/entities/book.entity';
 
-@Entity('user_books')
-export class UserBookEntity {
+@Entity('book_requests')
+export class BookRequestEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,6 +36,12 @@ export class UserBookEntity {
   })
   book: BookEntity;
 
-  @CreateDateColumn()
-  givenAt: number;
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
+  approvedAt?: Date | null;
+
+  @DeleteDateColumn()
+  deletedAt: number;
 }

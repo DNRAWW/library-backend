@@ -1,8 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { urlencoded } from 'express';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
+import { RoleGuard } from './modules/common/guards/role.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,10 +17,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  app.use(cookieParser());
   app.use(urlencoded({ extended: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
     }),
   );
 

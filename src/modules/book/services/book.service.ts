@@ -1,16 +1,26 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { CreateBookDto } from '../DTO/createBook.dto';
+import { SearchBooksDto } from '../DTO/search.dto';
 import { BookEntity } from '../entities/book.entity';
 
 @Injectable()
 export class BooksService {
-  @InjectRepository(BookEntity)
-  private readonly repository: Repository<BookEntity>;
+  constructor(
+    @InjectRepository(BookEntity)
+    private readonly repository: Repository<BookEntity>,
+  ) {}
 
-  async findAll(): Promise<BookEntity[]> {
-    return await this.repository.find();
+  async findAll(searchParams?: SearchBooksDto): Promise<BookEntity[]> {
+    return await this.repository.find({
+      where: {
+        authorId: searchParams.authorId,
+        title: searchParams.title
+          ? ILike(`%${searchParams.title}%`)
+          : undefined,
+      },
+    });
   }
 
   async create(book: CreateBookDto): Promise<void> {

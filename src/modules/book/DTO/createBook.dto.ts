@@ -1,10 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Length } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Length, Min } from 'class-validator';
 
 export class CreateBookDto {
   @ApiProperty()
-  @Length(5, 200)
-  author: string;
+  @Type(() => Number)
+  @Min(1)
+  authorId: number;
+
+  @ApiProperty()
+  @Type(() => Number)
+  @Min(1)
+  ganreId: number;
 
   @ApiProperty()
   @Length(5, 300)

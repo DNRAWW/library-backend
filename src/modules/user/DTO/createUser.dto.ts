@@ -1,6 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsOptional, Length, Min } from 'class-validator';
+import {
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  Length,
+  Max,
+  Min,
+  MinDate,
+} from 'class-validator';
+import { Roles } from '../entities/user.entity';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -15,9 +24,21 @@ export class CreateUserDto {
   @Length(2, 50)
   surName: string;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @Type(() => Boolean)
-  @IsBoolean()
-  isSubscribed: boolean;
+  @ApiProperty()
+  @IsDateString()
+  dateOfBirth: number;
+
+  @ApiProperty()
+  @Type(() => Number)
+  @Min(1000000000)
+  @Max(9999999999)
+  passport: number;
+
+  @ApiProperty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty()
+  @Length(8, 30)
+  password: string;
 }
