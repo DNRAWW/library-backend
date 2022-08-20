@@ -1,5 +1,11 @@
 import { AuthorEntity } from '../../author/entities/author.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { GanreEntity } from '../../ganre/entities/ganre.entity';
 
 @Entity('books')

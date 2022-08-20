@@ -14,13 +14,14 @@ import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ActionByIdDto } from 'src/modules/common/DTO/actionById.dto';
 import { ChangeUserDto } from '../DTO/chageUser.dto';
 import { CreateUserDto } from '../DTO/createUser.dto';
-import { UserEntity } from '../entities/user.entity';
+import { Roles, UserEntity } from '../entities/user.entity';
 import { AuthService } from '../services/auth.service';
 import { UsersService } from '../services/users.service';
 import { LocalAuthGuard } from '../guards/localAuth.guard';
 import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
 import { User } from 'src/modules/common/customDecorators/user.decorator';
 import { LoginDto } from '../DTO/login.dto';
+import { RequireRole, RoleGuard } from 'src/modules/common/guards/role.guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -31,12 +32,16 @@ export class UsersController {
   ) {}
 
   @ApiOperation({ summary: 'Возвращает пользователя по id' })
+  @RequireRole(Roles.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get('find-one/:id')
   async getOne(@Param() params: ActionByIdDto): Promise<UserEntity> {
     return await this.usersService.findOne(params.id);
   }
 
   @ApiOperation({ summary: 'Возвращает всех пользователей' })
+  @RequireRole(Roles.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   async getAll(): Promise<UserEntity[]> {
     return await this.usersService.findAll();
@@ -49,15 +54,16 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Редактирует пользователя' })
+  @UseGuards(JwtAuthGuard)
   @Put()
-  async edit(@Body() body: ChangeUserDto): Promise<void> {
-    await this.usersService.edit(body);
+  async edit(@User() user, @Body() body: ChangeUserDto): Promise<void> {
+    await this.usersService.edit(body, user.id);
   }
 
   @ApiOperation({ summary: 'Удаляет пользователя' })
   @Delete()
-  async delete(@Body() body: ActionByIdDto): Promise<void> {
-    await this.usersService.delete(body.id);
+  async delete(@User() user): Promise<void> {
+    await this.usersService.delete(user.id);
   }
 
   @ApiOperation({ summary: 'Логин' })
@@ -77,6 +83,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@User() user) {
-    return user;
+    return await this.usersService.findOne(user.id);
   }
 }

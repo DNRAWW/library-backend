@@ -3,11 +3,6 @@ import { Type } from 'class-transformer';
 import { Min, Length, IsOptional, IsEmail, Max } from 'class-validator';
 
 export class ChangeUserDto {
-  @ApiProperty()
-  @Type(() => Number)
-  @Min(1)
-  id: number;
-
   @ApiProperty({ required: null })
   @IsOptional()
   @Length(5, 50)

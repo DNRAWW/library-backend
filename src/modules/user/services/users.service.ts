@@ -80,17 +80,7 @@ export class UsersService {
     await this.repository.delete(id);
   }
 
-  async edit(user: ChangeUserDto): Promise<void> {
-    const result = await this.repository.findOne({
-      where: {
-        id: user.id,
-      },
-    });
-
-    if (!result) {
-      throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
-    }
-
+  async edit(user: ChangeUserDto, userId: number): Promise<void> {
     await this.repository.save(user);
   }
 

@@ -20,6 +20,10 @@ export class BooksService {
           ? ILike(`%${searchParams.title}%`)
           : undefined,
       },
+      relations: {
+        author: true,
+        ganre: true,
+      },
     });
   }
 
