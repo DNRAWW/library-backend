@@ -19,7 +19,7 @@ export class BooksController {
     return await this.booksService.findAll(query);
   }
 
-  @ApiOperation({ summary: 'Создаёт книгу' })
+  @ApiOperation({ summary: 'Создать книгу' })
   @Post()
   @RequireRole(Roles.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)

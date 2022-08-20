@@ -47,20 +47,20 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
-  @ApiOperation({ summary: 'Создаёт пользователя' })
+  @ApiOperation({ summary: 'Создать пользователя' })
   @Post()
   async create(@Body() body: CreateUserDto): Promise<void> {
     await this.usersService.create(body);
   }
 
-  @ApiOperation({ summary: 'Редактирует пользователя' })
+  @ApiOperation({ summary: 'Редактировать пользователя' })
   @UseGuards(JwtAuthGuard)
   @Put()
   async edit(@User() user, @Body() body: ChangeUserDto): Promise<void> {
     await this.usersService.edit(body, user.id);
   }
 
-  @ApiOperation({ summary: 'Удаляет пользователя' })
+  @ApiOperation({ summary: 'Удалить пользователя' })
   @Delete()
   async delete(@User() user): Promise<void> {
     await this.usersService.delete(user.id);
